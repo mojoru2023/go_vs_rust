@@ -1349,3 +1349,321 @@ func main() {
 //读取命令行参数
 
 // x := os.Args[1]
+
+//61. Get current date
+// 获取当前时间
+
+func main() {
+	d := time.Now()
+	fmt.Println("Now is", d)
+	// The Playground has a special sandbox, so you may get a Time value fixed in the past.
+}
+
+// 62. Find substring position
+// 字符串查找
+
+// 查找子字符串位置
+
+func main() {
+	x := "été chaud"
+
+	{
+		y := "chaud"
+		i := strings.Index(x, y)
+		fmt.Println(i)
+	}
+
+	{
+		y := "froid"
+		i := strings.Index(x, y)
+		fmt.Println(i)
+	}
+}
+
+//63. Replace fragment of a string
+//替换字符串片段
+
+func main() {
+	x := "oink oink oink"
+	y := "oink"
+	z := "moo"
+	x2 := strings.Replace(x, y, z, -1)
+	fmt.Println(x2)
+}
+
+// 64. Big integer : value 3 power 247
+// 超大整数
+
+func main() {
+	x := new(big.Int)
+	x.Exp(big.NewInt(3), big.NewInt(247), nil)
+	fmt.Println(x)
+}
+
+// 65. Format decimal number
+// 格式化十进制数
+
+func main() {
+	x := 0.15625
+	s := fmt.Sprintf("%.1f%%", 100.0*x)
+	fmt.Println(s)
+}
+
+// 66. Big integer exponentiation
+// 大整数幂运算
+
+func exp(x *big.Int, n int) *big.Int {
+	nb := big.NewInt(int64(n))
+	var z big.Int
+	z.Exp(x, nb, nil)
+	return &z
+}
+
+func main() {
+	x := big.NewInt(3)
+	n := 5
+	z := exp(x, n)
+	fmt.Println(z)
+}
+
+// 67. Binomial coefficient "n choose k"
+// Calculate binom(n, k) = n! / (k! * (n-k)!). Use an integer type able to handle huge numbers.
+
+// 二项式系数“n选择k”
+
+func main() {
+	z := new(big.Int)
+
+	z.Binomial(4, 2)
+	fmt.Println(z)
+
+	z.Binomial(133, 71)
+	fmt.Println(z)
+}
+
+// 68. Create a bitset
+// 创建位集合
+
+func main() {
+	var x *big.Int = new(big.Int)
+
+	x.SetBit(x, 42, 1)
+
+	for _, y := range []int{13, 42} {
+		fmt.Println("x has bit", y, "set to", x.Bit(y))
+	}
+}
+
+//or
+
+const n = 1024
+
+func main() {
+	x := make([]bool, n)
+
+	x[42] = true
+
+	for _, y := range []int{13, 42} {
+		fmt.Println("x has bit", y, "set to", x[y])
+	}
+}
+
+// or
+
+func main() {
+	const n = 1024
+
+	x := NewBitset(n)
+
+	x.SetBit(13)
+	x.SetBit(42)
+	x.ClearBit(13)
+
+	for _, y := range []int{13, 42} {
+		fmt.Println("x has bit", y, "set to", x.GetBit(y))
+	}
+}
+
+type Bitset []uint64
+
+func NewBitset(n int) Bitset {
+	return make(Bitset, (n+63)/64)
+}
+
+func (b Bitset) GetBit(index int) bool {
+	pos := index / 64
+	j := index % 64
+	return (b[pos] & (uint64(1) << j)) != 0
+}
+
+func (b Bitset) SetBit(index int) {
+	pos := index / 64
+	j := index % 64
+	b[pos] |= (uint64(1) << j)
+}
+
+func (b Bitset) ClearBit(index int) {
+	pos := index / 64
+	j := index % 64
+	b[pos] ^= (uint64(1) << j)
+}
+
+//69. Seed random generator
+
+// 随机种子生成器
+
+func main() {
+	var s int64 = 42
+	rand.Seed(s)
+	fmt.Println(rand.Int())
+}
+
+// or
+
+func main() {
+	var s int64 = 42
+	r := rand.New(rand.NewSource(s))
+	fmt.Println(r.Int())
+}
+
+//70. Use clock as random generator seed
+//使用时钟作为随机生成器的种子
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	// Well, the playground date is actually fixed in the past, and the
+	// output is cached.
+	// But if you run this on your workstation, the output will vary.
+	fmt.Println(rand.Intn(999))
+}
+
+// or
+
+func main() {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	// Well, the playground date is actually fixed in the past, and the
+	// output is cached.
+	// But if you run this on your workstation, the output will vary.
+	fmt.Println(r.Intn(999))
+}
+
+// 71. Echo program implementation
+// 实现 Echo 程序
+
+func main() {
+	fmt.Println(strings.Join(os.Args[1:], " "))
+}
+
+//74. Compute GCD
+//计算大整数a和b的最大公约数x。使用能够处理大数的整数类型。
+
+func main() {
+	a, b, x := new(big.Int), new(big.Int), new(big.Int)
+	a.SetString("6000000000000", 10)
+	b.SetString("9000000000000", 10)
+	x.GCD(nil, nil, a, b)
+	fmt.Println(x)
+}
+
+// 75. Compute LCM
+// 计算大整数a和b的最小公倍数x。使用能够处理大数的整数类型。
+
+func main() {
+	a, b, gcd, x := new(big.Int), new(big.Int), new(big.Int), new(big.Int)
+	a.SetString("6000000000000", 10)
+	b.SetString("9000000000000", 10)
+	gcd.GCD(nil, nil, a, b)
+	x.Div(a, gcd).Mul(x, b)
+	fmt.Println(x)
+}
+
+//76. Binary digits from an integer
+//将十进制整数转换为二进制数字
+
+func main() {
+	x := int64(13)
+	s := strconv.FormatInt(x, 2)
+
+	fmt.Println(s)
+}
+
+// or
+
+func main() {
+	x := big.NewInt(13)
+	s := fmt.Sprintf("%b", x)
+
+	fmt.Println(s)
+}
+
+//77. SComplex number
+
+// 复数
+
+func main() {
+	x := 3i - 2
+	x *= 1i
+
+	fmt.Println(x)
+	fmt.Print(reflect.TypeOf(x))
+}
+
+// 78. "do while" loop
+
+// 循环执行
+
+func main() {
+	for {
+		x := rollDice()
+		fmt.Println("Got", x)
+		if x == 3 {
+			break
+		}
+
+	}
+}
+
+func rollDice() int {
+	return 1 + rand.Intn(6)
+}
+
+//or
+
+func main() {
+	for done := false; !done; {
+		x := rollDice()
+		fmt.Println("Got", x)
+		done = x == 3
+	}
+}
+
+func rollDice() int {
+	return 1 + rand.Intn(6)
+}
+
+//79. Convert integer to floating point number
+
+// 整型转浮点型
+
+// 声明浮点数y并用整数x的值初始化它。
+
+func main() {
+	x := 5
+	y := float64(x)
+
+	fmt.Println(y)
+	fmt.Printf("%.2f\n", y)
+	fmt.Println(reflect.TypeOf(y))
+}
+
+//80. Truncate floating point number to integer
+// /浮点型转整型
+
+func main() {
+	a := -6.4
+	b := 6.4
+	c := 6.6
+	fmt.Println(int(a))
+	fmt.Println(int(b))
+	fmt.Println(int(c))
+}
