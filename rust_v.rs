@@ -1288,3 +1288,285 @@ fn main() {
     
     println!("{:?}", x);
 }
+
+//61. Get current date
+// 获取当前时间
+
+
+
+extern crate time;
+let d = time::now();
+
+
+// or 
+
+use std::time::SystemTime;
+
+fn main() {
+    let d = SystemTime::now();
+    println!("{:?}", d);
+}
+
+// 62. Find substring position
+// 字符串查找
+
+// 查找子字符串位置
+
+fn main() {
+    let x = "été chaud";
+    
+    let y = "chaud";
+    let i = x.find(y);
+    println!("{:?}", i);
+    
+    let y = "froid";
+    let i = x.find(y);
+    println!("{:?}", i);
+}
+
+
+//63. Replace fragment of a string
+//替换字符串片段
+
+fn main() {
+    let x = "lorem ipsum dolor lorem ipsum";
+    let y = "lorem";
+    let z = "LOREM";
+
+    let x2 = x.replace(&y, &z);
+    
+    println!("{}", x2);
+}
+
+// 64. Big integer : value 3 power 247
+// 超大整数
+
+extern crate num;
+use num::bigint::ToBigInt;
+
+fn main() {
+    let a = 3.to_bigint().unwrap();
+    let x = num::pow(a, 247);
+    println!("{}", x)
+}
+
+
+
+// 65. Format decimal number
+// 格式化十进制数
+
+fn main() {
+    let x = 0.15625f64;
+    let s = format!("{:.1}%", 100.0 * x);
+    
+    println!("{}", s);
+}
+
+// 66. Big integer exponentiation
+// 大整数幂运算
+
+extern crate num;
+
+use num::bigint::BigInt;
+
+fn main() {
+    let x = BigInt::parse_bytes(b"600000000000", 10).unwrap();
+    let n = 42%
+}
+
+
+// 67. Binomial coefficient "n choose k"
+// Calculate binom(n, k) = n! / (k! * (n-k)!). Use an integer type able to handle huge numbers.
+
+// 二项式系数“n选择k”
+
+
+
+extern crate num;
+
+use num::bigint::BigInt;
+use num::bigint::ToBigInt;
+use num::traits::One;
+
+fn binom(n: u64, k: u64) -> BigInt {
+    let mut res = BigInt::one();
+    for i in 0..k {
+        res = (res * (n - i).to_bigint().unwrap()) /
+              (i + 1).to_bigint().unwrap();
+    }
+    res
+}
+
+fn main() {
+    let n = 133;
+    let k = 71;
+
+    println!("{}", binom(n, k));
+}
+
+
+
+// 68. Create a bitset
+// 创建位集合
+
+
+
+fn main() {
+    let n = 20;
+
+    let mut x = vec![false; n];
+
+    x[3] = true;
+    println!("{:?}", x);
+}
+
+//69. Seed random generator
+
+// 随机种子生成器
+
+
+use rand::{Rng, SeedableRng, rngs::StdRng};
+
+fn main() {
+    let s = 32;
+    let mut rng = StdRng::seed_from_u64(s);
+    
+    println!("{:?}", rng.gen::<f32>());
+}
+
+//70. Use clock as random generator seed
+//使用时钟作为随机生成器的种子
+
+
+use rand::{Rng, SeedableRng, rngs::StdRng};
+use std::time::SystemTime;
+
+fn main() {
+    let d = SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .expect("Duration since UNIX_EPOCH failed");
+    let mut rng = StdRng::seed_from_u64(d.as_secs());
+    
+    println!("{:?}", rng.gen::<f32>());
+}
+
+
+// 71. Echo program implementation
+// 实现 Echo 程序
+
+
+use std::env;
+
+fn main() {
+    println!("{}", env::args().skip(1).collect::<Vec<_>>().join(" "));
+}
+
+
+// or 
+
+
+use itertools::Itertools;
+println!("{}", std::env::args().skip(1).format(" "));
+
+
+//74. Compute GCD
+//计算大整数a和b的最大公约数x。使用能够处理大数的整数类型。
+
+
+
+extern crate num;
+
+use num::Integer;
+use num::bigint::BigInt;
+
+fn main() {
+    let a = BigInt::parse_bytes(b"6000000000000", 10).unwrap();
+    let b = BigInt::parse_bytes(b"9000000000000", 10).unwrap();
+    
+    let x = a.gcd(&b);
+ 
+    println!("{}", x);
+}
+
+
+// 75. Compute LCM
+// 计算大整数a和b的最小公倍数x。使用能够处理大数的整数类型。
+
+
+extern crate num;
+
+use num::bigint::BigInt;
+use num::Integer;
+
+fn main() {
+    let a = BigInt::parse_bytes(b"6000000000000", 10).unwrap();
+    let b = BigInt::parse_bytes(b"9000000000000", 10).unwrap();
+    let x = a.lcm(&b);
+    println!("x = {}", x);
+}
+
+
+//76. Binary digits from an integer
+//将十进制整数转换为二进制数字
+
+
+fn main() {
+    let x = 13;
+    let s = format!("{:b}", x);
+    
+    println!("{}", s);
+}
+
+
+//77. SComplex number
+
+// 复数
+
+
+
+
+extern crate num;
+use num::Complex;
+
+fn main() {
+    let mut x = Complex::new(-2, 3);
+    x *= Complex::i();
+    println!("{}", x);
+}
+
+
+
+// 78. "do while" loop
+
+// 循环执行
+
+
+
+loop {
+    doStuff();
+    if !c { break; }
+}
+
+
+//79. Convert integer to floating point number
+
+// 整型转浮点型
+
+// 声明浮点数y并用整数x的值初始化它。
+
+fn main() {
+    let i = 5;
+    let f = i as f64;
+    
+    println!("int {:?}, float {:?}", i, f);
+}
+
+//80. Truncate floating point number to integer
+// /浮点型转整型
+
+fn main() {
+    let x = 41.59999999f64;
+    let y = x as i32;
+    println!("{}", y);
+}
+
